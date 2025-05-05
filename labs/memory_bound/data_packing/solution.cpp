@@ -7,7 +7,7 @@ void solution(std::vector<S> &arr) {
   // 1. shuffle
   static std::random_device rd;
   static std::mt19937 g(rd());
-  std::shuffle(arr.begin(), arr.end(), g);
+  std::shuffle(arr.begin(), arr.end(), g); // After chaning types in struct S, the biggest bottleneck is in here.
 
   // 2. counting sort
   constexpr int cntSize = maxRandom - minRandom + 1;
