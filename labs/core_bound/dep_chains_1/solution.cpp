@@ -21,6 +21,7 @@ unsigned getSumOfDigits(unsigned n) {
 //       to get the node N+1 you need to retrieve the node N first.
 //       Think how you can execute multiple dependency chains in parallel.
 unsigned solution(List *l1, List *l2) {
+#if 0
   unsigned retVal = 0;
 
   List *head2 = l2;
@@ -39,4 +40,63 @@ unsigned solution(List *l1, List *l2) {
   }
 
   return retVal;
+
+#else
+  unsigned retVal = 0;
+
+  List *head1 = l1;
+  List *head2 = l2;
+
+  int length1 = 0;
+  while (l1) {
+    ++length1;
+    l1 = l1->next;
+  }
+
+  l1 = head1;
+
+  const unsigned M = 4;
+
+  for (int i = 0; i < length1 / M; ++i) {
+    std::array<unsigned, M> values;
+
+    for (int j = 0; j < M; ++j) {
+      values[j] = l1->value;
+      l1 = l1->next;
+    }
+
+    int found = 0;
+    l2 = head2;
+    while (l2) {
+      unsigned v2 = l2->value;
+
+      for (int j = 0; j < M; ++j) {
+        if (v2 == values[j]) {
+          retVal += getSumOfDigits(v2);
+          if (++found == M) {
+            break;
+          }
+        }
+      }
+
+      l2 = l2->next;
+    }
+  }
+
+  // Process the remaining elements (in case the list is not divisible by M).
+  while (l1) {
+    unsigned v = l1->value;
+    l2 = head2;
+    while (l2) {
+      if (l2->value == v) {
+        retVal += getSumOfDigits(v);
+        break;
+      }
+      l2 = l2->next;
+    }
+    l1 = l1->next;
+  }
+
+  return retVal;
+#endif
 }
