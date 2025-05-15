@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <vector>
 #include <memory>
+#include <map>
 
 // Assume this constant never changes
 constexpr std::size_t N = 64 * 1024;
@@ -30,6 +31,10 @@ struct ClassC : public BaseClass {
 };
 
 using InstanceArray = std::vector<std::unique_ptr<BaseClass>>;
+using InstanceMap = std::map<int, std::vector<std::unique_ptr<BaseClass>>>;
 
 void generateObjects(InstanceArray& array);
 void invoke(InstanceArray& array, std::size_t& data);
+
+void generateObjects(InstanceMap& map);
+void invoke(InstanceMap& map, std::size_t& data);

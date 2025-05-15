@@ -2,12 +2,12 @@
 #include "solution.h"
 
 static void bench1(benchmark::State& state) {
-    InstanceArray arr;
-    generateObjects(arr);
+    InstanceMap map;
+    generateObjects(map);
 
     for (auto _: state) {
         std::size_t data = 0;
-        invoke(arr, data);
+        invoke(map, data);
         benchmark::DoNotOptimize(data);
     }
 }
